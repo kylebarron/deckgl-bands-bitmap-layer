@@ -5,7 +5,9 @@ export default `
 precision highp float;
 #endif
 
-uniform sampler2D bitmapTexture;
+uniform sampler2D r;
+uniform sampler2D g;
+uniform sampler2D b;
 
 varying vec2 vTexCoord;
 
@@ -31,9 +33,12 @@ vec4 apply_opacity(vec3 color, float alpha) {
 }
 
 void main(void) {
-  vec4 bitmapColor = texture2D(bitmapTexture, vTexCoord);
+  vec4 image_r = texture2D(r, vTexCoord);
+  vec4 image_g = texture2D(g, vTexCoord);
+  vec4 image_b = texture2D(b, vTexCoord);
+  vec4 image = vec4(image_r, image_g, image_b, 1.);
 
-  gl_FragColor = apply_opacity(color_tint(color_desaturate(bitmapColor.rgb)), bitmapColor.a * opacity);
+  gl_FragColor = apply_opacity(color_tint(color_desaturate(image.rgb)), image.a * opacity);
 
   geometry.uv = vTexCoord;
   DECKGL_FILTER_COLOR(gl_FragColor, geometry);

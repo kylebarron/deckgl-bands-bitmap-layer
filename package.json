@@ -1,0 +1,28 @@
+{
+  "name": "deckgl-bands-bitmap-layer",
+  "version": "1.0.0",
+  "description": "BitmapLayer for Deck.gl that accepts individual bands",
+  "main": "index.js",
+  "dependencies": {
+    "@deck.gl/core": "^8.1.1",
+    "@loaders.gl/images": "^2.1.2",
+    "@luma.gl/constants": "^8.1.0",
+    "@luma.gl/core": "^8.1.0",
+    "regenerator-runtime": "^0.13.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kylebarron/deckgl-bands-bitmap-layer.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kylebarron/deckgl-bands-bitmap-layer/issues"
+  },
+  "homepage": "https://github.com/kylebarron/deckgl-bands-bitmap-layer#readme"
+}

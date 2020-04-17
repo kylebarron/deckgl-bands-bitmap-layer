@@ -22,6 +22,7 @@
 import GL from '@luma.gl/constants';
 import {Layer, project32, picking} from '@deck.gl/core';
 import {Model, Geometry, Texture2D} from '@luma.gl/core';
+import {loadImageArray} from `@loaders.gl/images`;
 
 import vs from './bitmap-layer-vertex';
 import fs from './bitmap-layer-fragment';
@@ -51,7 +52,7 @@ const defaultProps = {
  * @param {number} props.transparentColor - color to interpret transparency to
  * @param {number} props.tintColor - color bias
  */
-export default class BitmapLayer extends Layer {
+export default class BandsBitmapLayer extends Layer {
   getShaders() {
     return super.getShaders({vs, fs, modules: [project32, picking]});
   }
@@ -86,8 +87,26 @@ export default class BitmapLayer extends Layer {
       this.getAttributeManager().invalidateAll();
     }
 
-    if (props.image !== oldProps.image) {
-      this.loadTexture(props.image);
+    // Load images
+    if (!arraysEqual(props.images, oldProps.images)) {
+      const images = this.loadTextures(props.image);
+      if (images) {
+        const {gl} = this.context;
+        this.setState({
+          r: new Texture2D(gl, {
+            data: images[0],
+            parameters: DEFAULT_TEXTURE_PARAMETERS
+          }),
+          g: new Texture2D(gl, {
+            data: images[1],
+            parameters: DEFAULT_TEXTURE_PARAMETERS
+          }),
+          b: new Texture2D(gl, {
+            data: images[2],
+            parameters: DEFAULT_TEXTURE_PARAMETERS
+          }),
+        })
+      }
     }
 
     const attributeManager = this.getAttributeManager();
@@ -100,8 +119,14 @@ export default class BitmapLayer extends Layer {
   finalizeState() {
     super.finalizeState();
 
-    if (this.state.bitmapTexture) {
-      this.state.bitmapTexture.delete();
+    if (this.state.r) {
+      this.state.r.delete();
+    }
+    if (this.state.g) {
+      this.state.g.delete();
+    }
+    if (this.state.b) {
+      this.state.b.delete();
     }
   }
 
@@ -173,31 +198,7 @@ export default class BitmapLayer extends Layer {
   draw(opts) {
     const {uniforms} = opts;
     const {bitmapTexture, model} = this.state;
-    const {image, desaturate, transparentColor, tintColor} = this.props;
-
-    // Update video frame
-    if (
-      bitmapTexture &&
-      image instanceof HTMLVideoElement &&
-      image.readyState > HTMLVideoElement.HAVE_METADATA
-    ) {
-      const sizeChanged =
-        bitmapTexture.width !== image.videoWidth || bitmapTexture.height !== image.videoHeight;
-      if (sizeChanged) {
-        // note clears image and mipmaps when resizing
-        bitmapTexture.resize({width: image.videoWidth, height: image.videoHeight, mipmaps: true});
-        bitmapTexture.setSubImageData({
-          data: image,
-          paramters: DEFAULT_TEXTURE_PARAMETERS
-        });
-      } else {
-        bitmapTexture.setSubImageData({
-          data: image
-        });
-      }
-
-      bitmapTexture.generateMipmap();
-    }
+    const {r, g, b, desaturate, transparentColor, tintColor} = this.props;
 
     // // TODO fix zFighting
     // Render the image
@@ -205,7 +206,9 @@ export default class BitmapLayer extends Layer {
       model
         .setUniforms(
           Object.assign({}, uniforms, {
-            bitmapTexture,
+            r,
+            g,
+            b,
             desaturate,
             transparentColor: transparentColor.map(x => x / 255),
             tintColor: tintColor.slice(0, 3).map(x => x / 255)
@@ -215,35 +218,17 @@ export default class BitmapLayer extends Layer {
     }
   }
 
-  loadTexture(image) {
-    const {gl} = this.context;
-
-    if (this.state.bitmapTexture) {
-      this.state.bitmapTexture.delete();
-    }
-
-    if (image instanceof Texture2D) {
-      this.setState({bitmapTexture: image});
-    } else if (image instanceof HTMLVideoElement) {
-      // Initialize an empty texture while we wait for the video to load
-      this.setState({
-        bitmapTexture: new Texture2D(gl, {
-          width: 1,
-          height: 1,
-          parameters: DEFAULT_TEXTURE_PARAMETERS,
-          mipmaps: false
-        })
-      });
-    } else if (image) {
+  loadTextures(images) {
+    if (images) {
       // Browser object: Image, ImageData, HTMLCanvasElement, ImageBitmap
-      this.setState({
-        bitmapTexture: new Texture2D(gl, {
-          data: image,
-          parameters: DEFAULT_TEXTURE_PARAMETERS
-        })
-      });
+      // Load images
+      return loadImageArray(3, index => images[index])
     }
   }
+}
+
+function arraysEqual(array1, array2) {
+  return array1.length === array2.length && array1.every((value, index) => value === array2[index])
 }
 
 BitmapLayer.layerName = 'BitmapLayer';
