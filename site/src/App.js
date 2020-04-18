@@ -68,7 +68,7 @@ export default class App extends React.Component {
         // https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#Tile_servers
         // data: "https://c.tile.openstreetmap.org/{z}/{x}/{y}.png",
         data:
-          "https://landsat-lambda.kylebarron.dev/tiles/229bc0ed88ac7f39effdb554efa0959766e41bb3948754faba13f74f/{z}/{x}/{y}@2x.png?bands=&color_ops=gamma+R+3.5%2C+sigmoidal+R+15+0.35",
+          "https://landsat-lambda.kylebarron.dev/tiles/229bc0ed88ac7f39effdb554efa0959766e41bb3948754faba13f74f/{z}/{x}/{y}@2x.jpg?bands=&color_ops=gamma+R+3.5%2C+sigmoidal+R+15+0.35",
 
         minZoom: 0,
         maxZoom: 12,
