@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/deckgl-bands-bitmap-layer/static/css/main.5ecd60fb.chunk.css",
+    "main.js": "/deckgl-bands-bitmap-layer/static/js/main.dd09d7d8.chunk.js",
+    "main.js.map": "/deckgl-bands-bitmap-layer/static/js/main.dd09d7d8.chunk.js.map",
+    "runtime-main.js": "/deckgl-bands-bitmap-layer/static/js/runtime-main.290b2201.js",
+    "runtime-main.js.map": "/deckgl-bands-bitmap-layer/static/js/runtime-main.290b2201.js.map",
+    "static/js/2.c64f7839.chunk.js": "/deckgl-bands-bitmap-layer/static/js/2.c64f7839.chunk.js",
+    "static/js/2.c64f7839.chunk.js.map": "/deckgl-bands-bitmap-layer/static/js/2.c64f7839.chunk.js.map",
+    "index.html": "/deckgl-bands-bitmap-layer/index.html",
+    "precache-manifest.37a49e822184f8cc1aaa4076742631bc.js": "/deckgl-bands-bitmap-layer/precache-manifest.37a49e822184f8cc1aaa4076742631bc.js",
+    "service-worker.js": "/deckgl-bands-bitmap-layer/service-worker.js",
+    "static/css/main.5ecd60fb.chunk.css.map": "/deckgl-bands-bitmap-layer/static/css/main.5ecd60fb.chunk.css.map",
+    "static/js/2.c64f7839.chunk.js.LICENSE.txt": "/deckgl-bands-bitmap-layer/static/js/2.c64f7839.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.290b2201.js",
+    "static/js/2.c64f7839.chunk.js",
+    "static/css/main.5ecd60fb.chunk.css",
+    "static/js/main.dd09d7d8.chunk.js"
+  ]
+}
