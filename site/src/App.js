@@ -5,10 +5,10 @@ import { TileLayer } from "@deck.gl/geo-layers";
 import { StaticMap } from "react-map-gl";
 // import {BandsBitmapLayer} from "deckgl-bands-bitmap-layer";
 import BandsBitmapLayer from "./bitmap-layer/bitmap-layer";
-import {ImageLoader} from '@loaders.gl/images';
-import {load} from '@loaders.gl/core';
+import { ImageLoader } from "@loaders.gl/images";
+import { load } from "@loaders.gl/core";
 
-import {loadImageArray} from '@loaders.gl/images';
+import { loadImageArray } from "@loaders.gl/images";
 import { vibrance } from "@luma.gl/shadertools";
 import { PostProcessEffect } from "@deck.gl/core";
 
@@ -30,15 +30,16 @@ export default class App extends React.Component {
   state = {
     r_img: null,
     g_img: null,
-    b_img: null,
-  }
+    b_img: null
+  };
 
   async componentDidMount() {
-    const url = "https://landsat-lambda.kylebarron.dev/tiles/229bc0ed88ac7f39effdb554efa0959766e41bb3948754faba13f74f/12/771/1606@2x.png?bands={band}&color_ops=gamma+R+3.5%2C+sigmoidal+R+15+0.35";
+    const url =
+      "https://landsat-lambda.kylebarron.dev/tiles/229bc0ed88ac7f39effdb554efa0959766e41bb3948754faba13f74f/12/771/1606@2x.png?bands={band}&color_ops=gamma+R+3.5%2C+sigmoidal+R+15+0.35";
 
-    const r_url = url.replace('{band}', '4');
-    const g_url = url.replace('{band}', '3');
-    const b_url = url.replace('{band}', '2');
+    const r_url = url.replace("{band}", "4");
+    const g_url = url.replace("{band}", "3");
+    const b_url = url.replace("{band}", "2");
 
     const r_img = await load(r_url, ImageLoader);
     const g_img = await load(g_url, ImageLoader);
@@ -48,13 +49,12 @@ export default class App extends React.Component {
       r_img,
       g_img,
       b_img
-    })
-
+    });
   }
 
   render() {
-    const {r_img, g_img, b_img} = this.state;
-    console.log([r_img, g_img, b_img])
+    const { r_img, g_img, b_img } = this.state;
+    console.log([r_img, g_img, b_img]);
 
     // let layers = [];
     // if (r_img && g_img && b_img) {
@@ -79,7 +79,7 @@ export default class App extends React.Component {
         minZoom: 0,
         maxZoom: 12,
 
-        getTileData: async ({url}) => {
+        getTileData: async ({ url }) => {
           const urls = [
             url.replace("bands=", "bands=4"),
             url.replace("bands=", "bands=3"),
@@ -88,8 +88,8 @@ export default class App extends React.Component {
           const images = await Promise.all([
             load(urls[0], ImageLoader),
             load(urls[1], ImageLoader),
-            load(urls[2], ImageLoader),
-          ])
+            load(urls[2], ImageLoader)
+          ]);
           return images;
         },
 
@@ -97,7 +97,7 @@ export default class App extends React.Component {
           const {
             bbox: { west, south, east, north }
           } = props.tile;
-          const {data} = props;
+          const { data } = props;
 
           let image_r, image_g, image_b;
           if (Array.isArray(data)) {
