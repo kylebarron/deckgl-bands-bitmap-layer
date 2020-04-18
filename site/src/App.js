@@ -7,8 +7,6 @@ import { StaticMap } from "react-map-gl";
 import BandsBitmapLayer from "./bitmap-layer/bitmap-layer";
 import { ImageLoader } from "@loaders.gl/images";
 import { load } from "@loaders.gl/core";
-
-import { loadImageArray } from "@loaders.gl/images";
 import { vibrance } from "@luma.gl/shadertools";
 import { PostProcessEffect } from "@deck.gl/core";
 
@@ -27,52 +25,9 @@ const vibranceEffect = new PostProcessEffect(vibrance, {
 
 // DeckGL react component
 export default class App extends React.Component {
-  state = {
-    r_img: null,
-    g_img: null,
-    b_img: null
-  };
-
-  async componentDidMount() {
-    const url =
-      "https://landsat-lambda.kylebarron.dev/tiles/229bc0ed88ac7f39effdb554efa0959766e41bb3948754faba13f74f/12/771/1606@2x.png?bands={band}&color_ops=gamma+R+3.5%2C+sigmoidal+R+15+0.35";
-
-    const r_url = url.replace("{band}", "4");
-    const g_url = url.replace("{band}", "3");
-    const b_url = url.replace("{band}", "2");
-
-    const r_img = await load(r_url, ImageLoader);
-    const g_img = await load(g_url, ImageLoader);
-    const b_img = await load(b_url, ImageLoader);
-
-    this.setState({
-      r_img,
-      g_img,
-      b_img
-    });
-  }
-
   render() {
-    const { r_img, g_img, b_img } = this.state;
-    console.log([r_img, g_img, b_img]);
-
-    // let layers = [];
-    // if (r_img && g_img && b_img) {
-    //   layers.push(
-    //     new BandsBitmapLayer({
-    //       // https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#Tile_servers
-    //       // data: "https://c.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    //       images: [r_img, g_img, b_img],
-    //       bounds: [-112.236328125, 36.10237644873644, -112.1484375, 36.17335693522158]
-    //
-    //     })
-    //
-    //   )
-    // }
     const layers = [
       new TileLayer({
-        // https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#Tile_servers
-        // data: "https://c.tile.openstreetmap.org/{z}/{x}/{y}.png",
         data:
           "https://landsat-lambda.kylebarron.dev/tiles/229bc0ed88ac7f39effdb554efa0959766e41bb3948754faba13f74f/{z}/{x}/{y}@2x.jpg?bands=&color_ops=gamma+R+3.5%2C+sigmoidal+R+15+0.35",
 
@@ -117,13 +72,6 @@ export default class App extends React.Component {
           });
         }
       })
-      // new BandsBitmapLayer({
-      //   // https://wiki.openstreetmap.org/wiki/Slippy_map_tilenames#Tile_servers
-      //   // data: "https://c.tile.openstreetmap.org/{z}/{x}/{y}.png",
-      //   images: [r_img, g_img, b_img],
-      //   bounds: [-112.236328125, 36.10237644873644, -112.1484375, 36.17335693522158]
-      //
-      // })
     ];
 
     return (
