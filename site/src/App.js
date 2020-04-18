@@ -9,6 +9,8 @@ import {ImageLoader} from '@loaders.gl/images';
 import {load} from '@loaders.gl/core';
 
 import {loadImageArray} from '@loaders.gl/images';
+import { vibrance } from "@luma.gl/shadertools";
+import { PostProcessEffect } from "@deck.gl/core";
 
 // Viewport settings
 const viewState = {
@@ -18,6 +20,10 @@ const viewState = {
   pitch: 0,
   bearing: 0
 };
+
+const vibranceEffect = new PostProcessEffect(vibrance, {
+  amount: 1
+});
 
 // DeckGL react component
 export default class App extends React.Component {
@@ -121,7 +127,12 @@ export default class App extends React.Component {
     ];
 
     return (
-      <DeckGL initialViewState={viewState} layers={layers} controller>
+      <DeckGL
+        initialViewState={viewState}
+        layers={layers}
+        effects={[vibranceEffect]}
+        controller
+      >
         <StaticMap
           mapStyle="https://cdn.jsdelivr.net/gh/nst-guide/osm-liberty-topo@gh-pages/style.json"
           mapOptions={{ hash: true }}
