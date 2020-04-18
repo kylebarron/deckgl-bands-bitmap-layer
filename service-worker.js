@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/deckgl-bands-bitmap-layer/precache-manifest.6abe21f1de3a1646147c65fa8be8274c.js"
+  "/deckgl-bands-bitmap-layer/precache-manifest.d0fb05cc37d75f5d0822523e11a7cb13.js"
 );
 
 self.addEventListener('message', (event) => {
