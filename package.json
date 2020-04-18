@@ -2,13 +2,15 @@
   "name": "deckgl-bands-bitmap-layer",
   "version": "1.0.0",
   "description": "BitmapLayer for Deck.gl that accepts individual bands",
-  "main": "index.js",
+  "main": "src/index.js",
   "dependencies": {
-    "@deck.gl/core": "^8.1.1",
     "@loaders.gl/images": "^2.1.2",
     "@luma.gl/constants": "^8.1.0",
     "@luma.gl/core": "^8.1.0",
     "regenerator-runtime": "^0.13.5"
+  },
+  "peerDependencies": {
+    "@deck.gl/core": "^8.1.1"
   },
   "devDependencies": {},
   "scripts": {
